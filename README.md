@@ -1,1 +1,1 @@
-![background](Gif.gif)
+![background](moscow_cyberpunk_split.png)
