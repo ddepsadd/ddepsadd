@@ -2,54 +2,331 @@
 <html lang="ru">
 <head>
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Monero — ddepsadd</title>
+<meta name="theme-color" content="#24273a">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Unbounded:wght@600&display=swap" rel="stylesheet">
 <style>
+  :root {
+    --base:      #24273a;
+    --mantle:    #1e2030;
+    --crust:     #181926;
+    --surface0:  #363a4f;
+    --surface1:  #494d64;
+    --text:      #cad3f5;
+    --subtext:   #a5adcb;
+    --overlay:   #6e738d;
+    --peach:     #f5a97f;
+    --teal:      #8bd5ca;
+    --mauve:     #c6a0f6;
+
+    --mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
+    --display: 'Unbounded', var(--mono);
+  }
+
+  * { box-sizing: border-box; }
+
   body {
-    background: #0d1117;
-    color: #e6e6e6;
-    font-family: monospace;
+    margin: 0;
+    min-height: 100vh;
     display: flex;
-    flex-direction: column;
     align-items: center;
     justify-content: center;
-    height: 100vh;
-    margin: 0;
+    padding: 32px 20px;
+    background: var(--base);
+    background-image:
+      radial-gradient(760px 420px at 50% -10%, rgba(245,169,127,.10), transparent 70%),
+      radial-gradient(560px 360px at 12% 108%, rgba(198,160,246,.08), transparent 70%);
+    color: var(--text);
+    font-family: var(--mono);
+    font-size: 14px;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
   }
-  #addr {
-    background: #161b22;
-    border: 1px solid #30363d;
-    border-radius: 8px;
-    padding: 16px 20px;
-    max-width: 90%;
-    word-break: break-all;
-    text-align: center;
-    margin-bottom: 16px;
+
+  .card {
+    width: 100%;
+    max-width: 620px;
+    background: var(--mantle);
+    border: 1px solid var(--surface0);
+    border-radius: 18px;
+    padding: clamp(24px, 5vw, 40px);
   }
-  button {
-    background: linear-gradient(90deg, #ff6600, #b57edc);
-    border: none;
-    color: white;
-    padding: 10px 24px;
-    border-radius: 6px;
+
+  /* ---- header ---- */
+
+  .brand {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 26px;
+  }
+  .brand svg { flex: none; }
+  .brand-handle {
+    font-size: 12px;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+    color: var(--overlay);
+  }
+
+  .title {
+    margin: 0 0 10px;
+    font-family: var(--display);
+    font-weight: 600;
+    font-size: clamp(26px, 6vw, 34px);
+    letter-spacing: -.01em;
+    color: var(--text);
+  }
+
+  .lede {
+    margin: 0 0 28px;
+    max-width: 46ch;
+    color: var(--subtext);
+  }
+  .lede b {
+    font-weight: 500;
+    color: var(--peach);
+  }
+
+  /* ---- address (signature element) ---- */
+
+  .addr {
+    display: block;
+    width: 100%;
+    text-align: left;
+    background: var(--crust);
+    border: 1px solid var(--surface0);
+    border-radius: 12px;
+    padding: 18px;
+    margin: 0 0 14px;
+    font-family: var(--mono);
+    font-size: clamp(12px, 2.9vw, 15px);
+    color: inherit;
     cursor: pointer;
-    font-size: 15px;
+    transition: border-color .18s ease, background .18s ease;
   }
-  button:active { transform: scale(0.97); }
+  .addr:hover { border-color: var(--surface1); }
+  .addr:focus-visible {
+    outline: 2px solid var(--mauve);
+    outline-offset: 3px;
+  }
+
+  .addr-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 7px 14px;
+  }
+
+  .chunk {
+    font-weight: 400;
+    letter-spacing: .04em;
+    color: var(--subtext);
+    border-radius: 3px;
+  }
+  .chunk.edge {
+    font-weight: 700;
+    color: var(--peach);
+  }
+  .chunk.lit {
+    animation: sweep .5s ease both;
+  }
+  @keyframes sweep {
+    40% { color: var(--teal); transform: translateY(-2px); }
+  }
+
+  .verify {
+    display: flex;
+    align-items: baseline;
+    gap: 8px;
+    margin: 0 0 26px;
+    font-size: 12px;
+    color: var(--overlay);
+  }
+  .verify em {
+    font-style: normal;
+    font-weight: 700;
+    color: var(--peach);
+  }
+
+  /* ---- action ---- */
+
+  .copy {
+    display: block;
+    width: 100%;
+    padding: 14px 20px;
+    border: 0;
+    border-radius: 11px;
+    background: var(--peach);
+    color: var(--crust);
+    font-family: var(--mono);
+    font-size: 14px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: background .18s ease, transform .1s ease;
+  }
+  .copy:hover { background: #f7b995; }
+  .copy:active { transform: scale(.99); }
+  .copy:focus-visible {
+    outline: 2px solid var(--mauve);
+    outline-offset: 3px;
+  }
+  .copy.done {
+    background: var(--teal);
+  }
+
+  /* ---- footer ---- */
+
+  .foot {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px 18px;
+    margin-top: 26px;
+    padding-top: 20px;
+    border-top: 1px solid var(--surface0);
+    font-size: 12px;
+    color: var(--overlay);
+  }
+  .foot a {
+    color: var(--subtext);
+    text-decoration: none;
+    border-bottom: 1px solid var(--surface1);
+    padding-bottom: 1px;
+    transition: color .18s ease, border-color .18s ease;
+  }
+  .foot a:hover {
+    color: var(--mauve);
+    border-color: var(--mauve);
+  }
+  .foot a:focus-visible {
+    outline: 2px solid var(--mauve);
+    outline-offset: 3px;
+    border-radius: 2px;
+  }
+
+  .sr {
+    position: absolute;
+    width: 1px; height: 1px;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+    white-space: nowrap;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    * { animation: none !important; transition: none !important; }
+  }
 </style>
 </head>
 <body>
-  <div id="addr">82tqZXXwdUC8nf4upsHaZMhnfgVx3DFTZMNsjsgD52C2W9WkZjjEEdwHcBEtEp3Pts1rDB146Dfm91dKwRfCBuSyHkgSwKf</div>
-  <button onclick="copyAddr()">Скопировать адрес</button>
+
+<main class="card">
+
+  <div class="brand">
+    <svg width="30" height="30" viewBox="0 0 32 32" aria-hidden="true">
+      <circle cx="16" cy="16" r="14" fill="none" stroke="#f5a97f" stroke-width="2"/>
+      <path d="M9 22.5V10.5l7 7 7-7v12" fill="none" stroke="#f5a97f"
+            stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+    <span class="brand-handle">ddepsadd</span>
+  </div>
+
+  <h1 class="title">Кошелёк Monero</h1>
+
+  <p class="lede">
+    Адрес для донатов. Сеть — <b>Monero (XMR)</b>. Монеты других сетей на этот
+    адрес не дойдут и восстановлению не подлежат.
+  </p>
+
+  <button class="addr" id="addr" type="button" aria-describedby="hint">
+    <span class="addr-grid" id="grid"></span>
+  </button>
+
+  <p class="verify" id="hint">
+    Сверьте края перед отправкой: <em id="head"></em> … <em id="tail"></em>
+  </p>
+
+  <button class="copy" id="copy" type="button">Скопировать адрес</button>
+  <p class="sr" role="status" aria-live="polite" id="live"></p>
+
+  <div class="foot">
+    <a href="https://github.com/ddepsadd">Профиль на GitHub</a>
+    <a href="https://pay.cloudtips.ru/p/c2e4b0f4">Поддержать картой</a>
+  </div>
+
+</main>
 
 <script>
-function copyAddr() {
-  const text = document.getElementById('addr').innerText;
-  navigator.clipboard.writeText(text).then(() => {
-    const btn = document.querySelector('button');
-    const old = btn.innerText;
-    btn.innerText = "Скопировано ✓";
-    setTimeout(() => btn.innerText = old, 1500);
+  const ADDRESS = '82tqZXXwdUC8nf4upsHaZMhnfgVx3DFTZMNsjsgD52C2W9WkZjjEEdwHcBEtEp3Pts1rDB146Dfm91dKwRfCBuSyHkgSwKf';
+
+  const grid = document.getElementById('grid');
+  const copyBtn = document.getElementById('copy');
+  const addrBtn = document.getElementById('addr');
+  const live = document.getElementById('live');
+
+  const chunks = ADDRESS.match(/.{1,8}/g) || [];
+
+  chunks.forEach((part, i) => {
+    const el = document.createElement('span');
+    el.className = 'chunk' + (i === 0 || i === chunks.length - 1 ? ' edge' : '');
+    el.textContent = part;
+    grid.appendChild(el);
   });
-}
+
+  document.getElementById('head').textContent = ADDRESS.slice(0, 4);
+  document.getElementById('tail').textContent = ADDRESS.slice(-4);
+
+  let resetTimer;
+
+  async function copyAddress() {
+    try {
+      await navigator.clipboard.writeText(ADDRESS);
+    } catch (err) {
+      const ta = document.createElement('textarea');
+      ta.value = ADDRESS;
+      ta.setAttribute('readonly', '');
+      ta.style.position = 'fixed';
+      ta.style.opacity = '0';
+      document.body.appendChild(ta);
+      ta.select();
+      const ok = document.execCommand('copy');
+      document.body.removeChild(ta);
+      if (!ok) return failed();
+    }
+    succeeded();
+  }
+
+  function succeeded() {
+    clearTimeout(resetTimer);
+    copyBtn.textContent = 'Адрес скопирован';
+    copyBtn.classList.add('done');
+    live.textContent = 'Адрес скопирован в буфер обмена';
+
+    grid.querySelectorAll('.chunk').forEach((el, i) => {
+      el.classList.remove('lit');
+      void el.offsetWidth;
+      el.style.animationDelay = (i * 28) + 'ms';
+      el.classList.add('lit');
+    });
+
+    resetTimer = setTimeout(() => {
+      copyBtn.textContent = 'Скопировать адрес';
+      copyBtn.classList.remove('done');
+    }, 2000);
+  }
+
+  function failed() {
+    clearTimeout(resetTimer);
+    copyBtn.textContent = 'Не скопировалось — выделите адрес вручную';
+    live.textContent = 'Скопировать не удалось. Выделите адрес и скопируйте вручную.';
+    resetTimer = setTimeout(() => {
+      copyBtn.textContent = 'Скопировать адрес';
+    }, 3000);
+  }
+
+  copyBtn.addEventListener('click', copyAddress);
+  addrBtn.addEventListener('click', copyAddress);
 </script>
+
 </body>
 </html>
