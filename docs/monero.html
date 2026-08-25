@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<style>
+  body {
+    background: #0d1117;
+    color: #e6e6e6;
+    font-family: monospace;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    margin: 0;
+  }
+  #addr {
+    background: #161b22;
+    border: 1px solid #30363d;
+    border-radius: 8px;
+    padding: 16px 20px;
+    max-width: 90%;
+    word-break: break-all;
+    text-align: center;
+    margin-bottom: 16px;
+  }
+  button {
+    background: linear-gradient(90deg, #ff6600, #b57edc);
+    border: none;
+    color: white;
+    padding: 10px 24px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 15px;
+  }
+  button:active { transform: scale(0.97); }
+</style>
+</head>
+<body>
+  <div id="addr">82tqZXXwdUC8nf4upsHaZMhnfgVx3DFTZMNsjsgD52C2W9WkZjjEEdwHcBEtEp3Pts1rDB146Dfm91dKwRfCBuSyHkgSwKf</div>
+  <button onclick="copyAddr()">Скопировать адрес</button>
+
+<script>
+function copyAddr() {
+  const text = document.getElementById('addr').innerText;
+  navigator.clipboard.writeText(text).then(() => {
+    const btn = document.querySelector('button');
+    const old = btn.innerText;
+    btn.innerText = "Скопировано ✓";
+    setTimeout(() => btn.innerText = old, 1500);
+  });
+}
+</script>
+</body>
+</html>
