@@ -7,7 +7,7 @@
 <meta name="theme-color" content="#24273a">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Unbounded:wght@600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
 <style>
   :root {
     --base:      #24273a;
@@ -16,14 +16,13 @@
     --surface0:  #363a4f;
     --surface1:  #494d64;
     --text:      #cad3f5;
-    --subtext:   #a5adcb;
+    --dim:       #8087a2;
     --overlay:   #6e738d;
     --peach:     #f5a97f;
     --teal:      #8bd5ca;
     --mauve:     #c6a0f6;
 
     --mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
-    --display: 'Unbounded', var(--mono);
   }
 
   * { box-sizing: border-box; }
@@ -48,49 +47,28 @@
 
   .card {
     width: 100%;
-    max-width: 620px;
+    max-width: 600px;
     background: var(--mantle);
     border: 1px solid var(--surface0);
     border-radius: 18px;
-    padding: clamp(24px, 5vw, 40px);
+    padding: clamp(24px, 5vw, 36px);
   }
-
-  /* ---- header ---- */
 
   .brand {
     display: flex;
     align-items: center;
-    gap: 12px;
-    margin-bottom: 26px;
+    gap: 11px;
+    margin-bottom: 22px;
   }
   .brand svg { flex: none; }
-  .brand-handle {
+  .brand span {
     font-size: 12px;
-    letter-spacing: .08em;
-    text-transform: uppercase;
+    font-weight: 500;
+    letter-spacing: .1em;
     color: var(--overlay);
   }
 
-  .title {
-    margin: 0 0 10px;
-    font-family: var(--display);
-    font-weight: 600;
-    font-size: clamp(26px, 6vw, 34px);
-    letter-spacing: -.01em;
-    color: var(--text);
-  }
-
-  .lede {
-    margin: 0 0 28px;
-    max-width: 46ch;
-    color: var(--subtext);
-  }
-  .lede b {
-    font-weight: 500;
-    color: var(--peach);
-  }
-
-  /* ---- address (signature element) ---- */
+  /* ---- address ---- */
 
   .addr {
     display: block;
@@ -105,7 +83,7 @@
     font-size: clamp(12px, 2.9vw, 15px);
     color: inherit;
     cursor: pointer;
-    transition: border-color .18s ease, background .18s ease;
+    transition: border-color .18s ease;
   }
   .addr:hover { border-color: var(--surface1); }
   .addr:focus-visible {
@@ -116,22 +94,18 @@
   .addr-grid {
     display: flex;
     flex-wrap: wrap;
-    gap: 7px 14px;
+    gap: 7px 13px;
   }
 
   .chunk {
-    font-weight: 400;
     letter-spacing: .04em;
-    color: var(--subtext);
     border-radius: 3px;
   }
-  .chunk.edge {
-    font-weight: 700;
-    color: var(--peach);
-  }
-  .chunk.lit {
-    animation: sweep .5s ease both;
-  }
+  .chunk.odd  { color: var(--dim);  font-weight: 400; }
+  .chunk.even { color: var(--text); font-weight: 500; }
+  .chunk.edge { color: var(--peach); font-weight: 700; }
+
+  .chunk.lit { animation: sweep .5s ease both; }
   @keyframes sweep {
     40% { color: var(--teal); transform: translateY(-2px); }
   }
@@ -139,8 +113,9 @@
   .verify {
     display: flex;
     align-items: baseline;
+    flex-wrap: wrap;
     gap: 8px;
-    margin: 0 0 26px;
+    margin: 0 0 22px;
     font-size: 12px;
     color: var(--overlay);
   }
@@ -172,9 +147,7 @@
     outline: 2px solid var(--mauve);
     outline-offset: 3px;
   }
-  .copy.done {
-    background: var(--teal);
-  }
+  .copy.done { background: var(--teal); }
 
   /* ---- footer ---- */
 
@@ -182,14 +155,13 @@
     display: flex;
     flex-wrap: wrap;
     gap: 8px 18px;
-    margin-top: 26px;
-    padding-top: 20px;
+    margin-top: 22px;
+    padding-top: 18px;
     border-top: 1px solid var(--surface0);
     font-size: 12px;
-    color: var(--overlay);
   }
   .foot a {
-    color: var(--subtext);
+    color: var(--dim);
     text-decoration: none;
     border-bottom: 1px solid var(--surface1);
     padding-bottom: 1px;
@@ -223,27 +195,20 @@
 <main class="card">
 
   <div class="brand">
-    <svg width="30" height="30" viewBox="0 0 32 32" aria-hidden="true">
+    <svg width="28" height="28" viewBox="0 0 32 32" aria-hidden="true">
       <circle cx="16" cy="16" r="14" fill="none" stroke="#f5a97f" stroke-width="2"/>
       <path d="M9 22.5V10.5l7 7 7-7v12" fill="none" stroke="#f5a97f"
             stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>
     </svg>
-    <span class="brand-handle">ddepsadd</span>
+    <span>MONERO · XMR</span>
   </div>
-
-  <h1 class="title">Кошелёк Monero</h1>
-
-  <p class="lede">
-    Адрес для донатов. Сеть — <b>Monero (XMR)</b>. Монеты других сетей на этот
-    адрес не дойдут и восстановлению не подлежат.
-  </p>
 
   <button class="addr" id="addr" type="button" aria-describedby="hint">
     <span class="addr-grid" id="grid"></span>
   </button>
 
   <p class="verify" id="hint">
-    Сверьте края перед отправкой: <em id="head"></em> … <em id="tail"></em>
+    Сверьте края: <em id="head"></em> … <em id="tail"></em>
   </p>
 
   <button class="copy" id="copy" type="button">Скопировать адрес</button>
@@ -264,11 +229,16 @@
   const addrBtn = document.getElementById('addr');
   const live = document.getElementById('live');
 
-  const chunks = ADDRESS.match(/.{1,8}/g) || [];
+  const chunks = ADDRESS.match(/.{1,6}/g) || [];
+  const last = chunks.length - 1;
 
   chunks.forEach((part, i) => {
     const el = document.createElement('span');
-    el.className = 'chunk' + (i === 0 || i === chunks.length - 1 ? ' edge' : '');
+    if (i === 0 || i === last) {
+      el.className = 'chunk edge';
+    } else {
+      el.className = 'chunk ' + (i % 2 ? 'odd' : 'even');
+    }
     el.textContent = part;
     grid.appendChild(el);
   });
@@ -305,7 +275,7 @@
     grid.querySelectorAll('.chunk').forEach((el, i) => {
       el.classList.remove('lit');
       void el.offsetWidth;
-      el.style.animationDelay = (i * 28) + 'ms';
+      el.style.animationDelay = (i * 24) + 'ms';
       el.classList.add('lit');
     });
 
